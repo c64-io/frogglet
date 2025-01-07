@@ -27,6 +27,9 @@ func (e *Scene) AddSystem(system ISystem) {
 	if eqUser, ok := system.(EntityQueueUser); ok {
 		eqUser.SetEntityQueue(e.EntityQueue)
 	}
+	if sysInit, ok := system.(SystemInitializer); ok {
+		sysInit.Init()
+	}
 }
 
 func (e *Scene) AddEntity(entity Identifier) {

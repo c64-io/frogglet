@@ -1,60 +1,84 @@
 package systems
 
 import (
-	"boxes/archetypes"
 	"boxes/engine"
+	"boxes/singletons"
 	"github.com/veandco/go-sdl2/sdl"
 	"reflect"
 )
 
 type Keyboard struct {
-	targets map[sdl.Keycode]map[uint64]archetypes.KeyTest
+	*singletons.KeyboardState
 }
 
 func NewKeyboardSystem() *Keyboard {
 	ks := &Keyboard{
-		targets: make(map[sdl.Keycode]map[uint64]archetypes.KeyTest),
+		KeyboardState: singletons.GetKeyboardState(),
 	}
 	return ks
 }
 
 func (k *Keyboard) Update(deltaT float32) {
 
+	k.PreviousUp = k.Up
+	k.PreviousDown = k.Down
+	k.PreviousLeft = k.Left
+	k.PreviousRight = k.Right
+	k.PreviousQuit = k.Quit
+	k.PreviousTestKey = k.TestKey
+
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		switch t := event.(type) {
 		case *sdl.KeyboardEvent:
-			if targets, ok := k.targets[t.Keysym.Sym]; ok {
-				for _, target := range targets {
-					target.IsPressed = t.Type == sdl.KEYDOWN
-				}
+			switch t.Keysym.Sym {
+			case sdl.K_UP:
+				k.Up = t.State == sdl.PRESSED
+				break
+			case sdl.K_DOWN:
+				k.Down = t.State == sdl.PRESSED
+				break
+			case sdl.K_LEFT:
+				k.Left = t.State == sdl.PRESSED
+				break
+			case sdl.K_RIGHT:
+				k.Right = t.State == sdl.PRESSED
+				break
+			case sdl.K_q:
+				k.Quit = t.State == sdl.PRESSED
+				break
+			case sdl.K_t:
+				k.TestKey = t.State == sdl.PRESSED
+				break
+
 			}
 		}
 	}
-	// Do nothing
+
+	k.UpPressed = k.Up && !k.PreviousUp
+	k.DownPressed = k.Down && !k.PreviousDown
+	k.LeftPressed = k.Left && !k.PreviousLeft
+	k.RightPressed = k.Right && !k.PreviousRight
+	k.QuitPressed = k.Quit && !k.PreviousQuit
+	k.TestKeyPressed = k.TestKey && !k.PreviousTestKey
+
+	k.UpReleased = !k.Up && k.PreviousUp
+	k.DownReleased = !k.Down && k.PreviousDown
+	k.LeftReleased = !k.Left && k.PreviousLeft
+	k.RightReleased = !k.Right && k.PreviousRight
+	k.QuitReleased = !k.Quit && k.PreviousQuit
+	k.TestKeyReleased = !k.TestKey && k.PreviousTestKey
+
 }
 
 func (k *Keyboard) RemoveEntity(entity engine.Identifier) {
-
-	target := entity.(archetypes.KeyTestTarget).GetKeyTestTarget()
-
-	if keyTarget, ok := k.targets[target.TargetKey]; ok {
-		delete(keyTarget, entity.GetId())
-	}
+	panic("Don't remove entities from the keyboard system")
 }
 
 func (k *Keyboard) AddEntity(entity engine.Identifier) {
-	target := entity.(archetypes.KeyTestTarget).GetKeyTestTarget()
-
-	if k.targets[target.TargetKey] == nil {
-		k.targets[target.TargetKey] = make(map[uint64]archetypes.KeyTest)
-	}
-
-	k.targets[target.TargetKey][entity.GetId()] = target
+	panic("Don't add entities to the keyboard system")
 
 }
 
 func (k *Keyboard) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{
-		reflect.TypeOf((*archetypes.KeyTestTarget)(nil)).Elem(),
-	}
+	return []reflect.Type{}
 }

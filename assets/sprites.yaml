@@ -1,0 +1,57 @@
+fileName: "assets/sprites.png"
+sprites:
+  - name: "FrogUp"
+    x: 12
+    y: 366
+    width: 22
+    height: 26
+  - name: "FrogUpJump"
+    x: 46
+    y: 366
+    width: 22
+    height: 26
+  - name: "FrogDown"
+    x: 81
+    y: 366
+    width: 22
+    height: 26
+  - name: "FrogDownJump"
+    x: 115
+    y: 366
+    width: 22
+    height: 26
+  - name: "FrogRight"
+    x: 12
+    y: 334
+    width: 22
+    height: 26
+  - name: "FrogRightJump"
+    x: 46
+    y: 334
+    width: 22
+    height: 26
+  - name: "FrogLeft"
+    x: 81
+    y: 336
+    width: 22
+    height: 26
+  - name: "FrogLeftJump"
+    x: 113
+    y: 338
+    width: 22
+    height: 26
+  - name: "Fly"
+    x: 140
+    y: 237
+    width: 16
+    height: 16
+  - name: "TopLand"
+    x: 0
+    y: 56
+    width: 399
+    height: 55
+  - name: "Street"
+    x: 256
+    y: 196
+    width: 238
+    height: 115

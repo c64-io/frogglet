@@ -1,5 +1,6 @@
 package components
 
 type SizeComponent struct {
-	Width, Height int
+	Width  int32
+	Height int32
 }

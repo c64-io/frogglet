@@ -1,11 +1,13 @@
 package resources
 
 import (
+	"github.com/veandco/go-sdl2/sdl"
 	"sync"
 )
 
 type AssetManager struct {
-	Textures map[string]*Texture
+	spriteSheets  map[string]*SpriteSheet
+	fontRenderers map[string]*FontRenderer
 }
 
 var assetManagerLoadOnce sync.Once
@@ -15,23 +17,38 @@ func getAssetManager() *AssetManager {
 	if singleAssetManager == nil {
 		assetManagerLoadOnce.Do(func() {
 			singleAssetManager = &AssetManager{
-				Textures: make(map[string]*Texture),
+				spriteSheets:  make(map[string]*SpriteSheet),
+				fontRenderers: make(map[string]*FontRenderer),
 			}
 		})
 	}
 	return singleAssetManager
 }
 
-func GetTexture(name string) *Texture {
+func GetSpriteSheet(name string, renderer *sdl.Renderer) *SpriteSheet {
 	am := getAssetManager()
 
-	if _, ok := am.Textures[name]; !ok {
-		tex, err := NewTexture(name, 0)
+	if _, ok := am.spriteSheets[name]; !ok {
+		sheet, err := NewSpriteSheet(name, renderer)
 		if err != nil {
 			return nil
 		}
-		am.Textures[name] = tex
-		return tex
+		am.spriteSheets[name] = &sheet
+		return &sheet
 	}
-	return am.Textures[name]
+	return am.spriteSheets[name]
+}
+
+func GetFontRenderer(name string, fontSize int, renderer *sdl.Renderer) *FontRenderer {
+	am := getAssetManager()
+
+	if _, ok := am.fontRenderers[name]; !ok {
+		fr, err := NewFontRenderer(name, fontSize, renderer)
+		if err != nil {
+			return nil
+		}
+		am.fontRenderers[name] = fr
+		return fr
+	}
+	return am.fontRenderers[name]
 }
