@@ -2,11 +2,11 @@ package archetypes
 
 import "boxes/components"
 
-type FlyControl struct {
+type FlyControlTarget struct {
 	*components.SpriteComponent
 	*components.LocationComponent
 }
 
-type FlyControllable interface {
-	GetFlyControl() FlyControl
+type FlyControlTargetable interface {
+	GetFlyControlTarget() FlyControlTarget
 }

@@ -60,14 +60,14 @@ func NewTestPlayer(x, y float32) *TestPlayer {
 	}
 }
 
-func (t *TestPlayer) GetQueuedMover() archetypes.QueuedMover {
-	return archetypes.QueuedMover{
+func (t *TestPlayer) GetQueuedMoveTarget() archetypes.QueuedMoveTarget {
+	return archetypes.QueuedMoveTarget{
 		QueuedMovementComponent: &t.QueuedMovementComponent,
 	}
 }
 
-func (t *TestPlayer) GetSteppedMover() archetypes.SteppedMover {
-	return archetypes.SteppedMover{
+func (t *TestPlayer) GetSteppedMoveTarget() archetypes.SteppedMoveTarget {
+	return archetypes.SteppedMoveTarget{
 		BasicMovementComponent:   &t.BasicMovementComponent,
 		SteppedMovementComponent: &t.SteppedMovementComponent,
 		QueuedMovementComponent:  &t.QueuedMovementComponent,
@@ -77,24 +77,24 @@ func (t *TestPlayer) GetSteppedMover() archetypes.SteppedMover {
 	}
 }
 
-func (t *TestPlayer) GetBasicMovementSpriteSelector() archetypes.BasicMovementSpriteSelector {
-	return archetypes.BasicMovementSpriteSelector{
+func (t *TestPlayer) GetBasicSpriteSelectionTarget() archetypes.BasicSpriteSelectionTarget {
+	return archetypes.BasicSpriteSelectionTarget{
 		BasicMovementComponent: &t.BasicMovementComponent,
 		HeadingComponent:       &t.HeadingComponent,
 		SpriteComponent:        &t.SpriteComponent,
 	}
 }
 
-func (t *TestPlayer) GetSpriteDrawer() archetypes.SpriteDrawer {
-	return archetypes.SpriteDrawer{
+func (t *TestPlayer) GetSpriteDrawTarget() archetypes.SpriteDrawTarget {
+	return archetypes.SpriteDrawTarget{
 		LocationComponent: &t.LocationComponent,
 		SpriteComponent:   &t.SpriteComponent,
 		SizeComponent:     &t.SizeComponent,
 	}
 }
 
-func (t *TestPlayer) GetDebugStringOverlay() archetypes.DebugStringOverlay {
-	return archetypes.DebugStringOverlay{
+func (t *TestPlayer) GetDebugStringOverlayTarget() archetypes.DebugStringOverlayTarget {
+	return archetypes.DebugStringOverlayTarget{
 		LocationComponent:    &t.LocationComponent,
 		SizeComponent:        &t.SizeComponent,
 		SpriteComponent:      &t.SpriteComponent,

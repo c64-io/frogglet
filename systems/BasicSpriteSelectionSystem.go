@@ -8,20 +8,20 @@ import (
 	"reflect"
 )
 
-type BasicMovementSpriteSelectionSystem struct {
-	targets map[uint64]archetypes.BasicMovementSpriteSelector
+type BasicSpriteSelectionSystem struct {
+	targets map[uint64]archetypes.BasicSpriteSelectionTarget
 	*singletons.KeyboardState
 	moveQueueLockout float32
 }
 
-func NewBasicMovementSpriteSelectionSystem() *BasicMovementSpriteSelectionSystem {
-	return &BasicMovementSpriteSelectionSystem{
-		targets:       make(map[uint64]archetypes.BasicMovementSpriteSelector),
+func NewBasicSpriteSelectionSystem() *BasicSpriteSelectionSystem {
+	return &BasicSpriteSelectionSystem{
+		targets:       make(map[uint64]archetypes.BasicSpriteSelectionTarget),
 		KeyboardState: singletons.GetKeyboardState(),
 	}
 }
 
-func (s *BasicMovementSpriteSelectionSystem) Update(deltaT float32) {
+func (s *BasicSpriteSelectionSystem) Update(deltaT float32) {
 	for _, target := range s.targets {
 
 		if target.IsMoving {
@@ -58,16 +58,14 @@ func (s *BasicMovementSpriteSelectionSystem) Update(deltaT float32) {
 	}
 }
 
-func (s *BasicMovementSpriteSelectionSystem) RemoveEntity(entity engine.Identifier) {
+func (s *BasicSpriteSelectionSystem) RemoveEntity(entity engine.Identifier) {
 	delete(s.targets, entity.GetId())
 }
 
-func (s *BasicMovementSpriteSelectionSystem) AddEntity(entity engine.Identifier) {
-	s.targets[entity.GetId()] = entity.(archetypes.BasicMovementSpriteSelectable).GetBasicMovementSpriteSelector()
+func (s *BasicSpriteSelectionSystem) AddEntity(entity engine.Identifier) {
+	s.targets[entity.GetId()] = entity.(archetypes.BasicSpriteSelectionTargetable).GetBasicSpriteSelectionTarget()
 }
 
-func (s *BasicMovementSpriteSelectionSystem) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{
-		reflect.TypeOf((*archetypes.BasicMovementSpriteSelectable)(nil)).Elem(),
-	}
+func (s *BasicSpriteSelectionSystem) GetTargetType() reflect.Type {
+	return reflect.TypeFor[archetypes.BasicSpriteSelectionTargetable]()
 }

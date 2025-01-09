@@ -9,3 +9,14 @@ const (
 	FacingLeft
 	FacingUp
 )
+
+type ColliderType uint8
+
+const (
+	ColliderTypeNone ColliderType = 1 << iota
+	ColliderTypePlayer
+	ColliderTypeEnemy
+	ColliderTypeWall
+	ColliderTypeProjectile
+	ColliderTypePickup
+)

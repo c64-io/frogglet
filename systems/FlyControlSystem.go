@@ -10,14 +10,14 @@ import (
 )
 
 type FlyControlSystem struct {
-	targets  map[uint64]archetypes.FlyControl
+	targets  map[uint64]archetypes.FlyControlTarget
 	renderer *sdl.Renderer
 	queue    *engine.EntityQueue
 }
 
 func NewFlyControlSystem(r *sdl.Renderer) *FlyControlSystem {
 	return &FlyControlSystem{
-		targets:  make(map[uint64]archetypes.FlyControl),
+		targets:  make(map[uint64]archetypes.FlyControlTarget),
 		renderer: r,
 	}
 }
@@ -36,13 +36,11 @@ func (k *FlyControlSystem) RemoveEntity(entity engine.Identifier) {
 }
 
 func (k *FlyControlSystem) AddEntity(entity engine.Identifier) {
-	k.targets[entity.GetId()] = entity.(archetypes.FlyControllable).GetFlyControl()
+	k.targets[entity.GetId()] = entity.(archetypes.FlyControlTargetable).GetFlyControlTarget()
 }
 
-func (k *FlyControlSystem) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{
-		reflect.TypeOf((*archetypes.FlyControllable)(nil)).Elem(),
-	}
+func (k *FlyControlSystem) GetTargetType() reflect.Type {
+	return reflect.TypeFor[archetypes.FlyControlTargetable]()
 }
 
 func (k *FlyControlSystem) SetEntityQueue(queue *engine.EntityQueue) {

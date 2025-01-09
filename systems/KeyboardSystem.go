@@ -1,10 +1,8 @@
 package systems
 
 import (
-	"boxes/engine"
 	"boxes/singletons"
 	"github.com/veandco/go-sdl2/sdl"
-	"reflect"
 )
 
 type Keyboard struct {
@@ -68,17 +66,4 @@ func (k *Keyboard) Update(deltaT float32) {
 	k.QuitReleased = !k.Quit && k.PreviousQuit
 	k.TestKeyReleased = !k.TestKey && k.PreviousTestKey
 
-}
-
-func (k *Keyboard) RemoveEntity(entity engine.Identifier) {
-	panic("Don't remove entities from the keyboard system")
-}
-
-func (k *Keyboard) AddEntity(entity engine.Identifier) {
-	panic("Don't add entities to the keyboard system")
-
-}
-
-func (k *Keyboard) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{}
 }

@@ -2,7 +2,7 @@ package archetypes
 
 import "boxes/components"
 
-type SteppedMover struct {
+type SteppedMoveTarget struct {
 	*components.BasicMovementComponent
 	*components.SteppedMovementComponent
 	*components.QueuedMovementComponent
@@ -11,6 +11,6 @@ type SteppedMover struct {
 	*components.LocationComponent
 }
 
-type SteppedMoveable interface {
-	GetSteppedMover() SteppedMover
+type SteppedMoveTargetable interface {
+	GetSteppedMoveTarget() SteppedMoveTarget
 }

@@ -9,18 +9,18 @@ import (
 )
 
 type StepMovementSystem struct {
-	targets map[uint64]archetypes.SteppedMover
+	targets map[uint64]archetypes.SteppedMoveTarget
 	*singletons.KeyboardState
 }
 
 func NewStepMovementSystem() *StepMovementSystem {
 	return &StepMovementSystem{
-		targets:       make(map[uint64]archetypes.SteppedMover),
+		targets:       make(map[uint64]archetypes.SteppedMoveTarget),
 		KeyboardState: singletons.GetKeyboardState(),
 	}
 }
 
-func startStep(frog archetypes.SteppedMover) {
+func startStep(frog archetypes.SteppedMoveTarget) {
 	frog.IsMoving = true
 	frog.Heading = frog.EnqueuedMove
 	frog.StepDirection = frog.EnqueuedMove
@@ -30,7 +30,7 @@ func startStep(frog archetypes.SteppedMover) {
 
 }
 
-func stopStep(frog archetypes.SteppedMover) {
+func stopStep(frog archetypes.SteppedMoveTarget) {
 	frog.IsMoving = false
 }
 
@@ -83,11 +83,9 @@ func (s *StepMovementSystem) RemoveEntity(entity engine.Identifier) {
 }
 
 func (s *StepMovementSystem) AddEntity(entity engine.Identifier) {
-	s.targets[entity.GetId()] = entity.(archetypes.SteppedMoveable).GetSteppedMover()
+	s.targets[entity.GetId()] = entity.(archetypes.SteppedMoveTargetable).GetSteppedMoveTarget()
 }
 
-func (s *StepMovementSystem) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{
-		reflect.TypeOf((*archetypes.SteppedMoveable)(nil)).Elem(),
-	}
+func (s *StepMovementSystem) GetTargetType() reflect.Type {
+	return reflect.TypeFor[archetypes.SteppedMoveTargetable]()
 }

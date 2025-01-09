@@ -2,13 +2,13 @@ package archetypes
 
 import "boxes/components"
 
-type DebugStringOverlay struct {
+type DebugStringOverlayTarget struct {
 	*components.LocationComponent
 	*components.SizeComponent
 	*components.SpriteComponent
 	*components.DebugStringComponent
 }
 
-type DebugStringOverlayable interface {
-	GetDebugStringOverlay() DebugStringOverlay
+type DebugStringOverlayTargetable interface {
+	GetDebugStringOverlayTarget() DebugStringOverlayTarget
 }

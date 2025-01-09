@@ -8,13 +8,13 @@ import (
 )
 
 type DrawRectSystem struct {
-	targets  map[uint64]archetypes.DrawRect
+	targets  map[uint64]archetypes.DrawRectTarget
 	renderer *sdl.Renderer
 }
 
 func NewDrawRectSystem(r *sdl.Renderer) *DrawRectSystem {
 	return &DrawRectSystem{
-		targets:  make(map[uint64]archetypes.DrawRect),
+		targets:  make(map[uint64]archetypes.DrawRectTarget),
 		renderer: r,
 	}
 }
@@ -39,11 +39,9 @@ func (k *DrawRectSystem) RemoveEntity(entity engine.Identifier) {
 }
 
 func (k *DrawRectSystem) AddEntity(entity engine.Identifier) {
-	k.targets[entity.GetId()] = entity.(archetypes.DrawRectTarget).GetDrawRect()
+	k.targets[entity.GetId()] = entity.(archetypes.DrawRectTargetable).GetDrawRectTarget()
 }
 
-func (k *DrawRectSystem) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{
-		reflect.TypeOf((*archetypes.DrawRectTarget)(nil)).Elem(),
-	}
+func (k *DrawRectSystem) GetTargetType() reflect.Type {
+	return reflect.TypeFor[archetypes.DrawRectTargetable]()
 }

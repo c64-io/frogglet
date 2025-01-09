@@ -13,7 +13,7 @@ import (
 
 type SpriteLayer struct {
 	LayerNumber uint8
-	Sprites     map[uint64]archetypes.SpriteDrawer
+	Sprites     map[uint64]archetypes.SpriteDrawTarget
 }
 
 type DrawSpriteSystem struct {
@@ -37,7 +37,7 @@ func NewDrawSpriteSystem(r *sdl.Renderer) *DrawSpriteSystem {
 func (k *DrawSpriteSystem) CreateOrGetLayer(layer uint8) *SpriteLayer {
 	newLayer := &SpriteLayer{
 		LayerNumber: layer,
-		Sprites:     make(map[uint64]archetypes.SpriteDrawer),
+		Sprites:     make(map[uint64]archetypes.SpriteDrawTarget),
 	}
 
 	if len(k.layers) == 0 {
@@ -85,15 +85,13 @@ func (k *DrawSpriteSystem) RemoveEntity(entity engine.Identifier) {
 }
 
 func (k *DrawSpriteSystem) AddEntity(entity engine.Identifier) {
-	spriteDrawer := entity.(archetypes.SpriteDrawable).GetSpriteDrawer()
+	spriteDrawer := entity.(archetypes.SpriteDrawTargetable).GetSpriteDrawTarget()
 
 	layer := k.CreateOrGetLayer(spriteDrawer.Layer)
 	layer.Sprites[entity.GetId()] = spriteDrawer
 
 }
 
-func (k *DrawSpriteSystem) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{
-		reflect.TypeOf((*archetypes.SpriteDrawable)(nil)).Elem(),
-	}
+func (k *DrawSpriteSystem) GetTargetType() reflect.Type {
+	return reflect.TypeFor[archetypes.SpriteDrawTargetable]()
 }

@@ -31,16 +31,16 @@ func NewFly(x, y float32) *Fly {
 	}
 }
 
-func (t *Fly) GetSpriteDrawer() archetypes.SpriteDrawer {
-	return archetypes.SpriteDrawer{
+func (t *Fly) GetSpriteDrawTarget() archetypes.SpriteDrawTarget {
+	return archetypes.SpriteDrawTarget{
 		LocationComponent: &t.LocationComponent,
 		SpriteComponent:   &t.SpriteComponent,
 		SizeComponent:     &t.SizeComponent,
 	}
 }
 
-func (t *Fly) GetFlyControl() archetypes.FlyControl {
-	return archetypes.FlyControl{
+func (t *Fly) GetFlyControlTarget() archetypes.FlyControlTarget {
+	return archetypes.FlyControlTarget{
 		SpriteComponent:   &t.SpriteComponent,
 		LocationComponent: &t.LocationComponent,
 	}

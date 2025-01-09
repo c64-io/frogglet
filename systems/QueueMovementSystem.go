@@ -9,13 +9,13 @@ import (
 )
 
 type QueueMovementSystem struct {
-	targets map[uint64]archetypes.QueuedMover
+	targets map[uint64]archetypes.QueuedMoveTarget
 	*singletons.KeyboardState
 }
 
 func NewQueueMovementSystem() *QueueMovementSystem {
 	return &QueueMovementSystem{
-		targets:       make(map[uint64]archetypes.QueuedMover),
+		targets:       make(map[uint64]archetypes.QueuedMoveTarget),
 		KeyboardState: singletons.GetKeyboardState(),
 	}
 }
@@ -52,11 +52,9 @@ func (s *QueueMovementSystem) RemoveEntity(entity engine.Identifier) {
 }
 
 func (s *QueueMovementSystem) AddEntity(entity engine.Identifier) {
-	s.targets[entity.GetId()] = entity.(archetypes.QueuedMoveable).GetQueuedMover()
+	s.targets[entity.GetId()] = entity.(archetypes.QueuedMoveTargetable).GetQueuedMoveTarget()
 }
 
-func (s *QueueMovementSystem) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{
-		reflect.TypeOf((*archetypes.QueuedMoveable)(nil)).Elem(),
-	}
+func (s *QueueMovementSystem) GetTargetType() reflect.Type {
+	return reflect.TypeFor[archetypes.QueuedMoveTargetable]()
 }

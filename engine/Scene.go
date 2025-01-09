@@ -6,28 +6,29 @@ import (
 )
 
 type Scene struct {
-	SystemMap   map[reflect.Type]ISystem
-	Systems     []ISystem
+	SystemMap   map[reflect.Type]EntityTargeter
+	Systems     []Updater
 	EntityQueue *EntityQueue
 }
 
 func NewScene() Scene {
 	return Scene{
-		SystemMap:   make(map[reflect.Type]ISystem),
-		Systems:     make([]ISystem, 0),
+		SystemMap:   make(map[reflect.Type]EntityTargeter),
+		Systems:     make([]Updater, 0),
 		EntityQueue: NewEntityQueue(),
 	}
 }
 
-func (e *Scene) AddSystem(system ISystem) {
+func (e *Scene) AddSystem(system Updater) {
 	e.Systems = append(e.Systems, system)
-	for _, target := range system.GetTargetTypes() {
-		e.SystemMap[target] = system
+
+	if entityTargeter, ok := system.(EntityTargeter); ok {
+		e.SystemMap[entityTargeter.GetTargetType()] = entityTargeter
 	}
 	if eqUser, ok := system.(EntityQueueUser); ok {
 		eqUser.SetEntityQueue(e.EntityQueue)
 	}
-	if sysInit, ok := system.(SystemInitializer); ok {
+	if sysInit, ok := system.(Initializer); ok {
 		sysInit.Init()
 	}
 }

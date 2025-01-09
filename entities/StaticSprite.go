@@ -31,8 +31,8 @@ func NewStaticSprite(x, y float32, width, height int32, spriteName string, layer
 	}
 }
 
-func (s *StaticSprite) GetSpriteDrawer() archetypes.SpriteDrawer {
-	return archetypes.SpriteDrawer{
+func (s *StaticSprite) GetSpriteDrawTarget() archetypes.SpriteDrawTarget {
+	return archetypes.SpriteDrawTarget{
 		LocationComponent: &s.LocationComponent,
 		SpriteComponent:   &s.SpriteComponent,
 		SizeComponent:     &s.SizeComponent,

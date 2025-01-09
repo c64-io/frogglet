@@ -12,19 +12,19 @@ import (
 
 const DEBUG_STRING_FONT_SIZE = 14
 
-type DrawDebugStringOverlaySystem struct {
-	targets      map[uint64]archetypes.DebugStringOverlay
+type DebugStringOverlaySystem struct {
+	targets      map[uint64]archetypes.DebugStringOverlayTarget
 	fontRenderer *resources.FontRenderer
 }
 
-func NewDrawDebugStringOverlaySystem(r *sdl.Renderer) *DrawDebugStringOverlaySystem {
-	return &DrawDebugStringOverlaySystem{
-		targets:      make(map[uint64]archetypes.DebugStringOverlay),
+func NewDebugStringOverlaySystem(r *sdl.Renderer) *DebugStringOverlaySystem {
+	return &DebugStringOverlaySystem{
+		targets:      make(map[uint64]archetypes.DebugStringOverlayTarget),
 		fontRenderer: resources.GetFontRenderer("assets/Good Old DOS.ttf", DEBUG_STRING_FONT_SIZE, r),
 	}
 }
 
-func (k *DrawDebugStringOverlaySystem) Update(deltaT float32) {
+func (k *DebugStringOverlaySystem) Update(deltaT float32) {
 
 	y := int32(30)
 
@@ -50,17 +50,15 @@ func (k *DrawDebugStringOverlaySystem) Update(deltaT float32) {
 	}
 }
 
-func (k *DrawDebugStringOverlaySystem) RemoveEntity(entity engine.Identifier) {
+func (k *DebugStringOverlaySystem) RemoveEntity(entity engine.Identifier) {
 	delete(k.targets, entity.GetId())
 
 }
 
-func (k *DrawDebugStringOverlaySystem) AddEntity(entity engine.Identifier) {
-	k.targets[entity.GetId()] = entity.(archetypes.DebugStringOverlayable).GetDebugStringOverlay()
+func (k *DebugStringOverlaySystem) AddEntity(entity engine.Identifier) {
+	k.targets[entity.GetId()] = entity.(archetypes.DebugStringOverlayTargetable).GetDebugStringOverlayTarget()
 }
 
-func (k *DrawDebugStringOverlaySystem) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{
-		reflect.TypeFor[archetypes.DebugStringOverlayable](),
-	}
+func (k *DebugStringOverlaySystem) GetTargetType() reflect.Type {
+	return reflect.TypeFor[archetypes.DebugStringOverlayTargetable]()
 }

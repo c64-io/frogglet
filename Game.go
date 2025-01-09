@@ -34,18 +34,16 @@ func (g *Game) loadSystems() {
 	g.Engine.AddSystem(systems.NewStepMovementSystem())
 	g.Engine.AddSystem(systems.NewFlyControlSystem(g.Renderer))
 
-	g.Engine.AddSystem(systems.NewBasicMovementSpriteSelectionSystem())
+	g.Engine.AddSystem(systems.NewBasicSpriteSelectionSystem())
 	g.Engine.AddSystem(systems.NewDrawSpriteSystem(g.Renderer))
-	//g.Engine.AddSystem(systems.NewDrawKeyboardOverlaySystem(g.Renderer))
-	g.Engine.AddSystem(systems.NewDrawDebugStringOverlaySystem(g.Renderer))
+	g.Engine.AddSystem(systems.NewDrawKeyboardOverlaySystem(g.Renderer))
+	g.Engine.AddSystem(systems.NewDebugStringOverlaySystem(g.Renderer))
 
 }
 
 func (g *Game) loadEntities() {
 
 	g.Engine.AddEntity(entities.NewTestPlayer(0, 0))
-	g.Engine.AddEntity(entities.NewStaticSprite(0, 0, 800, 110, "TopLand", 1))
-	g.Engine.AddEntity(entities.NewStaticSprite(200, -400, 238*8, 115*8, "Street", 2))
 
 }
 

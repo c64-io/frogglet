@@ -1,10 +1,8 @@
 package systems
 
 import (
-	"boxes/engine"
 	"boxes/singletons"
 	"github.com/veandco/go-sdl2/sdl"
-	"reflect"
 )
 
 type DrawKeyboardOverlaySystem struct {
@@ -45,17 +43,4 @@ func (k *DrawKeyboardOverlaySystem) Update(deltaT float32) {
 	drawKeyRect(k.renderer, 15, 0, k.UpPressed, k.UpReleased, k.Up)
 
 	// Do nothing
-}
-
-func (k *DrawKeyboardOverlaySystem) RemoveEntity(entity engine.Identifier) {
-	panic("Don't remove entities from the keyboard system")
-
-}
-
-func (k *DrawKeyboardOverlaySystem) AddEntity(entity engine.Identifier) {
-	panic("Don't add entities to the keyboard system")
-}
-
-func (k *DrawKeyboardOverlaySystem) GetTargetTypes() []reflect.Type {
-	return []reflect.Type{}
 }
