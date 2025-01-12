@@ -22,6 +22,8 @@ type TestPlayer struct {
 	components.QueuedMovementComponent
 	components.BasicMovementComponent
 	components.SteppedMovementComponent
+	components.ColliderComponent
+	components.ColorComponent
 }
 
 func NewTestPlayer(x, y float32) *TestPlayer {
@@ -56,6 +58,9 @@ func NewTestPlayer(x, y float32) *TestPlayer {
 		SteppedMovementComponent: components.SteppedMovementComponent{
 			StepSpeed:    FROG_JUMP_SPEED,
 			StepDistance: FROG_JUMP_DISTANCE,
+		},
+		ColliderComponent: components.ColliderComponent{
+			ColliderType: utils.ColliderTypePlayer,
 		},
 	}
 }
@@ -99,5 +104,28 @@ func (t *TestPlayer) GetDebugStringOverlayTarget() archetypes.DebugStringOverlay
 		SizeComponent:        &t.SizeComponent,
 		SpriteComponent:      &t.SpriteComponent,
 		DebugStringComponent: &t.DebugStringComponent,
+	}
+}
+
+func (t *TestPlayer) GetAabbCollisionTarget() archetypes.AabbCollisionTarget {
+	return archetypes.AabbCollisionTarget{
+		LocationComponent: &t.LocationComponent,
+		SizeComponent:     &t.SizeComponent,
+		ColliderComponent: &t.ColliderComponent,
+	}
+}
+
+func (t *TestPlayer) GetCollisionBoxHighlightTarget() archetypes.CollisionBoxHighlightTarget {
+	return archetypes.CollisionBoxHighlightTarget{
+		ColliderComponent: &t.ColliderComponent,
+		ColorComponent:    &t.ColorComponent,
+	}
+}
+
+func (t *TestPlayer) GetDrawRectTarget() archetypes.DrawRectTarget {
+	return archetypes.DrawRectTarget{
+		LocationComponent: &t.LocationComponent,
+		SizeComponent:     &t.SizeComponent,
+		ColorComponent:    &t.ColorComponent,
 	}
 }

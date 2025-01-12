@@ -47,8 +47,8 @@ func (s *QueueMovementSystem) Update(deltaT float32) {
 
 }
 
-func (s *QueueMovementSystem) RemoveEntity(entity engine.Identifier) {
-	delete(s.targets, entity.GetId())
+func (s *QueueMovementSystem) RemoveEntity(entityId uint64) {
+	delete(s.targets, entityId)
 }
 
 func (s *QueueMovementSystem) AddEntity(entity engine.Identifier) {

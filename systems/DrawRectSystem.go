@@ -22,7 +22,7 @@ func NewDrawRectSystem(r *sdl.Renderer) *DrawRectSystem {
 func (k *DrawRectSystem) Update(deltaT float32) {
 	for _, target := range k.targets {
 		k.renderer.SetDrawColor(target.Color.R, target.Color.G, target.Color.B, target.Color.A)
-		k.renderer.FillRect(&sdl.Rect{
+		k.renderer.DrawRect(&sdl.Rect{
 			X: int32(target.X),
 			Y: int32(target.Y),
 			W: int32(target.Width),
@@ -33,8 +33,8 @@ func (k *DrawRectSystem) Update(deltaT float32) {
 	// Do nothing
 }
 
-func (k *DrawRectSystem) RemoveEntity(entity engine.Identifier) {
-	delete(k.targets, entity.GetId())
+func (k *DrawRectSystem) RemoveEntity(entityId uint64) {
+	delete(k.targets, entityId)
 
 }
 

@@ -4,7 +4,6 @@ import (
 	"boxes/archetypes"
 	"boxes/engine"
 	"boxes/resources"
-	"boxes/singletons"
 	"cmp"
 	"github.com/veandco/go-sdl2/sdl"
 	"reflect"
@@ -20,8 +19,6 @@ type DrawSpriteSystem struct {
 	layers      []*SpriteLayer
 	renderer    *sdl.Renderer
 	spriteSheet *resources.SpriteSheet
-	keys        *singletons.KeyboardState
-	drawBorder  bool
 }
 
 func NewDrawSpriteSystem(r *sdl.Renderer) *DrawSpriteSystem {
@@ -29,8 +26,6 @@ func NewDrawSpriteSystem(r *sdl.Renderer) *DrawSpriteSystem {
 		layers:      make([]*SpriteLayer, 0),
 		renderer:    r,
 		spriteSheet: resources.GetSpriteSheet("assets/sprites.yaml", r),
-		keys:        singletons.GetKeyboardState(),
-		drawBorder:  false,
 	}
 }
 
@@ -55,31 +50,16 @@ func (k *DrawSpriteSystem) CreateOrGetLayer(layer uint8) *SpriteLayer {
 }
 
 func (k *DrawSpriteSystem) Update(deltaT float32) {
-
-	if k.keys.TestKeyReleased {
-		k.drawBorder = !k.drawBorder
-	}
 	for _, target := range k.layers {
 		for _, s := range target.Sprites {
-			k.spriteSheet.DrawSprite(s.SpriteName, int32(s.X), int32(s.Y), s.Width, s.Height, k.renderer)
+			k.spriteSheet.DrawSprite(s.SpriteName, int32(s.X), int32(s.Y), int32(s.Width), int32(s.Height), k.renderer)
 		}
 	}
-
-	if k.drawBorder {
-		for _, target := range k.layers {
-			for _, s := range target.Sprites {
-				k.renderer.SetDrawColor(255, 0, 0, 255)
-				k.renderer.DrawRect(&sdl.Rect{X: int32(s.X), Y: int32(s.Y), W: s.Width, H: s.Height})
-			}
-		}
-	}
-
-	// Do nothing
 }
 
-func (k *DrawSpriteSystem) RemoveEntity(entity engine.Identifier) {
+func (k *DrawSpriteSystem) RemoveEntity(entityId uint64) {
 	for _, layer := range k.layers {
-		delete(layer.Sprites, entity.GetId())
+		delete(layer.Sprites, entityId)
 	}
 
 }

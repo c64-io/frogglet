@@ -4,6 +4,6 @@ import "reflect"
 
 type EntityTargeter interface {
 	GetTargetType() reflect.Type
-	RemoveEntity(entity Identifier)
+	RemoveEntity(entityId uint64)
 	AddEntity(entity Identifier)
 }

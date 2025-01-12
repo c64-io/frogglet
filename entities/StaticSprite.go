@@ -13,7 +13,7 @@ type StaticSprite struct {
 	components.SizeComponent
 }
 
-func NewStaticSprite(x, y float32, width, height int32, spriteName string, layer uint8) *StaticSprite {
+func NewStaticSprite(x, y, width, height float32, spriteName string, layer uint8) *StaticSprite {
 	return &StaticSprite{
 		BasicEntity: engine.NewBasicEntity(),
 		LocationComponent: components.LocationComponent{

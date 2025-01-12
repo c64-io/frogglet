@@ -13,8 +13,8 @@ const (
 type ColliderType uint8
 
 const (
-	ColliderTypeNone ColliderType = 1 << iota
-	ColliderTypePlayer
+	ColliderTypeNone   ColliderType = 0
+	ColliderTypePlayer ColliderType = 1 << (iota - 1)
 	ColliderTypeEnemy
 	ColliderTypeWall
 	ColliderTypeProjectile

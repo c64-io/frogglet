@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"fmt"
 	"reflect"
 )
 
@@ -41,9 +40,9 @@ func (e *Scene) AddEntity(entity Identifier) {
 	}
 }
 
-func (e *Scene) RemoveEntity(entity Identifier) {
+func (e *Scene) RemoveEntity(entityId uint64) {
 	for _, system := range e.SystemMap {
-		system.RemoveEntity(entity)
+		system.RemoveEntity(entityId)
 	}
 }
 
@@ -60,11 +59,10 @@ func (e *Scene) Update(deltaT float32) {
 		e.EntityQueue.Additions = make([]Identifier, 0)
 	}
 	if e.EntityQueue.HasRemovals {
-		for _, entity := range e.EntityQueue.Removals {
-			fmt.Printf("Removing Entity %v\n", entity.GetId())
-			e.RemoveEntity(entity)
+		for _, entityId := range e.EntityQueue.Removals {
+			e.RemoveEntity(entityId)
 		}
 		e.EntityQueue.HasRemovals = false
-		e.EntityQueue.Removals = make([]Identifier, 0)
+		e.EntityQueue.Removals = make([]uint64, 0)
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"boxes/archetypes"
 	"boxes/components"
 	"boxes/engine"
+	"boxes/utils"
 )
 
 type Fly struct {
@@ -11,6 +12,8 @@ type Fly struct {
 	components.LocationComponent
 	components.SizeComponent
 	components.SpriteComponent
+	components.ColliderComponent
+	components.ColorComponent
 }
 
 func NewFly(x, y float32) *Fly {
@@ -28,6 +31,9 @@ func NewFly(x, y float32) *Fly {
 			Width:  15,
 			Height: 15,
 		},
+		ColliderComponent: components.ColliderComponent{
+			ColliderType: utils.ColliderTypeEnemy,
+		},
 	}
 }
 
@@ -39,9 +45,38 @@ func (t *Fly) GetSpriteDrawTarget() archetypes.SpriteDrawTarget {
 	}
 }
 
-func (t *Fly) GetFlyControlTarget() archetypes.FlyControlTarget {
-	return archetypes.FlyControlTarget{
+func (t *Fly) GetFlySpawnTarget() archetypes.FlySpawnTarget {
+	return archetypes.FlySpawnTarget{
 		SpriteComponent:   &t.SpriteComponent,
 		LocationComponent: &t.LocationComponent,
+	}
+}
+
+func (t *Fly) GetAabbCollisionTarget() archetypes.AabbCollisionTarget {
+	return archetypes.AabbCollisionTarget{
+		LocationComponent: &t.LocationComponent,
+		SizeComponent:     &t.SizeComponent,
+		ColliderComponent: &t.ColliderComponent,
+	}
+}
+
+func (t *Fly) GetCollisionBoxHighlightTarget() archetypes.CollisionBoxHighlightTarget {
+	return archetypes.CollisionBoxHighlightTarget{
+		ColliderComponent: &t.ColliderComponent,
+		ColorComponent:    &t.ColorComponent,
+	}
+}
+
+func (t *Fly) GetDrawRectTarget() archetypes.DrawRectTarget {
+	return archetypes.DrawRectTarget{
+		LocationComponent: &t.LocationComponent,
+		SizeComponent:     &t.SizeComponent,
+		ColorComponent:    &t.ColorComponent,
+	}
+}
+
+func (t *Fly) GetFlyEatenTarget() archetypes.FlyEatenTarget {
+	return archetypes.FlyEatenTarget{
+		ColliderComponent: &t.ColliderComponent,
 	}
 }

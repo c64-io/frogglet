@@ -32,10 +32,15 @@ func (g *Game) loadSystems() {
 
 	g.Engine.AddSystem(systems.NewQueueMovementSystem())
 	g.Engine.AddSystem(systems.NewStepMovementSystem())
-	g.Engine.AddSystem(systems.NewFlyControlSystem(g.Renderer))
+	g.Engine.AddSystem(systems.NewFlyEatenSystem())
+	g.Engine.AddSystem(systems.NewFlySpawnSystem())
+
+	g.Engine.AddSystem(systems.NewAabbCollisionSystem())
+	g.Engine.AddSystem(systems.NewCollisionBoxHighlightSystem())
 
 	g.Engine.AddSystem(systems.NewBasicSpriteSelectionSystem())
 	g.Engine.AddSystem(systems.NewDrawSpriteSystem(g.Renderer))
+	//g.Engine.AddSystem(systems.NewDrawRectSystem(g.Renderer))
 	g.Engine.AddSystem(systems.NewDrawKeyboardOverlaySystem(g.Renderer))
 	g.Engine.AddSystem(systems.NewDebugStringOverlaySystem(g.Renderer))
 

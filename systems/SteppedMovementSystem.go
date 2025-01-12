@@ -78,8 +78,8 @@ func (s *StepMovementSystem) Update(deltaT float32) {
 	}
 }
 
-func (s *StepMovementSystem) RemoveEntity(entity engine.Identifier) {
-	delete(s.targets, entity.GetId())
+func (s *StepMovementSystem) RemoveEntity(entityId uint64) {
+	delete(s.targets, entityId)
 }
 
 func (s *StepMovementSystem) AddEntity(entity engine.Identifier) {

@@ -50,8 +50,8 @@ func (k *DebugStringOverlaySystem) Update(deltaT float32) {
 	}
 }
 
-func (k *DebugStringOverlaySystem) RemoveEntity(entity engine.Identifier) {
-	delete(k.targets, entity.GetId())
+func (k *DebugStringOverlaySystem) RemoveEntity(entityId uint64) {
+	delete(k.targets, entityId)
 
 }
 

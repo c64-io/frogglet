@@ -58,8 +58,8 @@ func (s *BasicSpriteSelectionSystem) Update(deltaT float32) {
 	}
 }
 
-func (s *BasicSpriteSelectionSystem) RemoveEntity(entity engine.Identifier) {
-	delete(s.targets, entity.GetId())
+func (s *BasicSpriteSelectionSystem) RemoveEntity(entityId uint64) {
+	delete(s.targets, entityId)
 }
 
 func (s *BasicSpriteSelectionSystem) AddEntity(entity engine.Identifier) {
